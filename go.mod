@@ -1,4 +1,4 @@
-module github.com/luzerz/common
+module github.com/luzerz/go-common
 
 go 1.14
 
