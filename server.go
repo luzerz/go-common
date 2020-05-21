@@ -1,7 +1,6 @@
 package server
 
 import (
-	"Common/infrastructure/persistence"
 	"github.com/joho/godotenv"
 	"os"
 	"time"
@@ -46,7 +45,6 @@ func init() {
 }
 
 func Setup() {
-
 	ServerSetting.RunMode = os.Getenv("APP_MODE")
 	ServerSetting.HttpPort = os.Getenv("APP_PORT")
 	ServerSetting.ReadTimeout = 60 * time.Second
@@ -58,25 +56,8 @@ func Setup() {
 	DatabaseSetting.Password = os.Getenv("DB_PASSWORD")
 	DatabaseSetting.Name = os.Getenv("DB_NAME")
 	DatabaseSetting.Port = os.Getenv("DB_PORT")
-
 	RedisSetting.Host = os.Getenv("REDIS_HOST")
 	RedisSetting.Port = os.Getenv("REDIS_PORT")
 	RedisSetting.Password = os.Getenv("REDIS_PASSWORD")
-	SetupDatabase()
 
-}
-
-func SetupDatabase() {
-	services, err := persistence.NewRepositories(
-		DatabaseSetting.Driver,
-		DatabaseSetting.User,
-		DatabaseSetting.Password,
-		DatabaseSetting.Port,
-		DatabaseSetting.Host,
-		DatabaseSetting.Name)
-	if err != nil {
-		panic(err)
-	}
-	_ = services.AutoMigrate()
-	defer services.Close()
 }
